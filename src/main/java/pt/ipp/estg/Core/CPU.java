@@ -27,14 +27,18 @@ public class CPU implements Runnable {
                             thread.start();
                             System.out.println("[CPU] Processing task!");
 //                            Logger.log("CPU", "Processing task!");
-                            kernel.tasksInExecution.add(task);
+                            synchronized (kernel.tasksInExecution) {
+                                kernel.tasksInExecution.add(task);
+                            }
                             thread.join();
                             task.setStatus(Status.COMPLETED);
                             long endTime = System.currentTimeMillis();
                             long executionTime = endTime - startTime;
                             System.out.println("[CPU] Sending result to Kernel!");
 //                            Logger.log("CPU", "Sending result to Kernel!");
-                            kernel.tasksInExecution.remove(task);
+                            synchronized (kernel.tasksInExecution) {
+                                kernel.tasksInExecution.remove(task);
+                            }
                             kernel.writeResult(task, executionTime);
                         } else {
                             System.out.println("[CPU] Task postponed, not enough memory!");
@@ -42,9 +46,9 @@ public class CPU implements Runnable {
                             kernel.tasks.addTask(task);
                             continue;
                         }
-                        Thread.sleep(1500);
                     }
                 }
+                Thread.sleep(1500);
             }
         } catch (Exception e) {
             System.err.println("An unexpected error has occurred!\n" + e.getMessage());

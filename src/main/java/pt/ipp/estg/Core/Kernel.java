@@ -11,7 +11,7 @@ public class Kernel {
     private final CPU cpu;
     private final Memory memory;
     private final Middleware middleware;
-    protected List<Task> tasksInExecution;
+    protected final List<Task> tasksInExecution;
     private boolean isRunning;
 
     public Kernel(Middleware middleware) {

@@ -32,25 +32,33 @@ public class TaskScheduler {
         }
     }
 
-    public Task getTask() {
+    public synchronized Task getTask() {
         Task task = null;
 
         if (isEmpty()) return null;
 
         if (!highPriorityTasks.isEmpty() && starvationCounter == 0) {
             task = highPriorityTasks.poll();
-            starvationCounter++;
+            incrementStarvationCounter();
         } else if (!mediumPriorityTasks.isEmpty() && starvationCounter > 0 && starvationCounter < 3) {
             task = mediumPriorityTasks.poll();
-            starvationCounter++;
+            incrementStarvationCounter();
         } else if (!lowPriorityTasks.isEmpty() && starvationCounter >= 3 && starvationCounter < 6) {
             task = lowPriorityTasks.poll();
-            starvationCounter++;
+            incrementStarvationCounter();
         } else {
-            starvationCounter = 0;
+            resetStarvationCounter();
         }
 
         return task;
+    }
+
+    public synchronized void incrementStarvationCounter() {
+        starvationCounter++;
+    }
+
+    public synchronized void resetStarvationCounter() {
+        starvationCounter = 0;
     }
 
     public boolean isEmpty() {

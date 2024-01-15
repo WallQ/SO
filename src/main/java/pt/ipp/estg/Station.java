@@ -6,9 +6,13 @@ import pt.ipp.estg.Enums.Priority;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Station {
     public static void main(String[] args) {
+        Logger.getLogger(Station.class.getName()).log(Level.INFO, "Station started. Waiting for tasks...\n");
+
         Middleware middleware = new Middleware();
         middleware.turnOn();
 

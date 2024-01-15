@@ -31,7 +31,7 @@ public class Memory {
         return memoryUsed >= memory;
     }
 
-    public boolean allocateMemory(int memory) {
+    public synchronized boolean allocateMemory(int memory) {
         if (isFull()) {
             System.out.println("[Memory] Memory is full!");
 //            Logger.log("Memory", "Memory is full!");
@@ -49,7 +49,7 @@ public class Memory {
         return true;
     }
 
-    public boolean freeMemory(int memory) {
+    public synchronized boolean freeMemory(int memory) {
         if (isEmpty()) {
             System.out.println("[Memory] Memory is empty!");
 //            Logger.log("Memory", "Memory is empty!");
