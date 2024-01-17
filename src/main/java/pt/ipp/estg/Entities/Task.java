@@ -102,11 +102,25 @@ public class Task implements Runnable {
     public void run() {
         try {
             this.status = Status.RUNNING;
-            System.out.printf("[%s - %s] %s%n", this.name, this.priority, this.status);
+            System.out.printf("[%s] Priority: %s - Status: %s%n", this.name, this.priority, this.status);
             Thread.sleep(generateRandomNumber());
         } catch (InterruptedException e) {
             System.err.println("An unexpected error has occurred!\n" + e.getMessage());
             System.exit(1);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", dateTime='" + dateTime + '\'' +
+                ", priority=" + priority +
+                ", status=" + status +
+                ", result='" + result + '\'' +
+                ", memory=" + memory +
+                '}';
     }
 }

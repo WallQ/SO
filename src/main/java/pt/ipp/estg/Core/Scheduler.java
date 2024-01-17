@@ -5,20 +5,20 @@ import pt.ipp.estg.Entities.Task;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class TaskScheduler {
+public class Scheduler {
     private final Queue<Task> highPriorityTasks;
     private final Queue<Task> mediumPriorityTasks;
     private final Queue<Task> lowPriorityTasks;
     private int starvationCounter;
 
-    public TaskScheduler() {
+    public Scheduler() {
         this.highPriorityTasks = new LinkedBlockingQueue<>();
         this.mediumPriorityTasks = new LinkedBlockingQueue<>();
         this.lowPriorityTasks = new LinkedBlockingQueue<>();
         this.starvationCounter = 0;
     }
 
-    public void addTask(Task task) {
+    public synchronized void addTask(Task task) {
         switch (task.getPriority()) {
             case HIGH:
                 highPriorityTasks.add(task);
@@ -65,7 +65,7 @@ public class TaskScheduler {
         return highPriorityTasks.isEmpty() && mediumPriorityTasks.isEmpty() && lowPriorityTasks.isEmpty();
     }
 
-    public void clearTasks() {
+    public synchronized void clearTasks() {
         highPriorityTasks.clear();
         mediumPriorityTasks.clear();
         lowPriorityTasks.clear();
